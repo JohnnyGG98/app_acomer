@@ -1,16 +1,53 @@
-# app_acomer
+# AComer App
 
-A new Flutter project.
+Aplicación móvil para reservas en restaurantes que tengan categoria tenedor uno. 
 
-## Getting Started
+### Creando un modelo 
 
-This project is a starting point for a Flutter application.
+- Se debe poner el nombre del objeto en singular. 
+- Se debe crear dentro de la carpeta models. 
+- Antes de crear el modelo, se debe crear una carpeta con el nombre del modelo. 
+- Los nombres de los atributos deben estar en camelcase asi ```idUsuario``` no asi ```id_usuario```. 
+- Todos los modelos deben tener un constructor que se llame ```Modelo.fromJSONMap(Map<String, Dynamic> json)```. 
 
-A few resources to get you started if this is your first Flutter project:
+**Ejemplo:**
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+```dart
+class Cliente {
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+  int id; 
+  int idUsuario;
+  String nombre;
+  String apellido; 
+  String identificacion;
+  String telefono;
+  int numCompras; 
+  DateTime ultimaCompra; 
+  double totalConsumos;
+
+  Cliente({
+    this.id,
+    this.idUsuario,
+    this.nombre,
+    this.apellido,
+    this.identificacion,
+    this.telefono,
+    this.numCompras,
+    this.ultimaCompra,
+    this.totalConsumos
+  });
+
+  Cliente.fromJSONMap(Map<String, dynamic> json) {
+    id = json['id'];
+    idUsuario = json['id_usuario'];
+    nombre = json['nombre'];
+    apellido = json['apellido'];
+    identificacion = json['identificacion'];
+    telefono = json['telefono'];
+    numCompras = json['num_compras'];
+    ultimaCompra = json['ultimaCompra']; 
+    totalConsumos = json['totalConsumos'];
+  }
+
+}
+```
