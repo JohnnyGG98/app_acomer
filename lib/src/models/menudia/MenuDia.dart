@@ -1,7 +1,7 @@
 class Restaurante{
 
 int id;
-String menuDia;
+Map<String,dynamic> menuDia;
 DateTime fechaInicio;
 DateTime fechaFin;
 

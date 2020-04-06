@@ -1,7 +1,7 @@
 class Restaurante{
 
 int id;
-String reporte;
+Map<String,dynamic> reporte;
 DateTime fecha;
 String nombre;
 
