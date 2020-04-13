@@ -3,7 +3,7 @@ class Restaurante{
 int id;
 int idEmpleado;
 int idMesa;
-String platos;
+Map<String, dynamic> platos;
 String notas;
 
 Restaurante({
