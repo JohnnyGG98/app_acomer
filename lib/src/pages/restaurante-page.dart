@@ -157,7 +157,7 @@ class RestaurantePage extends StatelessWidget {
             ),
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text('\$ 25.0', 
@@ -172,19 +172,18 @@ class RestaurantePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        height: 20,
+                        height: 25,
                         width: 60,
                         color: Colors.white,
                       ),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 5),
-                        height: 20,
+                        height: 25,
                         color: Theme.of(context).accentColor,
                         child: Center(
                           child: Text('Agregar', 
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11
+                              color: Colors.white
                             ),
                           ),
                         )
