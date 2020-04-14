@@ -1,5 +1,7 @@
+
 import 'package:app_acomer/src/pages/detalle-page.dart';
 import 'package:app_acomer/src/pages/home-page.dart';
+import 'package:app_acomer/src/pages/restaurante-page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -37,10 +39,11 @@ class MyApp extends StatelessWidget {
         primaryColorLight: Color.fromRGBO(236, 233, 222, 1),
         primarySwatch: Colors.blue,
       ),
-      initialRoute: 'detalle',
+      initialRoute: 'restaurante',
       routes: {
         '/': (BuildContext ct) => HomePage(),
-        'detalle': (BuildContext ct) => DetallePage()
+        'detalle': (BuildContext ct) => DetallePage(),
+        'restaurante': (BuildContext ct) => RestaurantePage(),
       },
     );
   }
