@@ -34,7 +34,13 @@ class DetallePage extends StatelessWidget {
             left: 0,
             top: screenSize.height * 0.35,
             child: _getRestaurante(context, screenSize)
-          )
+          ),
+
+          Positioned(
+            bottom: 0,
+            // left: 0,
+            child: _getBottomPlatos(context, screenSize)
+          ),
           
             
         ],
@@ -150,7 +156,7 @@ class DetallePage extends StatelessWidget {
 
   Widget _getIngredientes(BuildContext context, Size size) {
     return Container(
-      height: size.height,
+      height: size.height * 0.50,
       width: size.width * 0.70,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColorLight,
@@ -165,7 +171,86 @@ class DetallePage extends StatelessWidget {
               0, // vertical, move down 10
             ),
           )
-        ]
+        ],
+      ),
+      padding: EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: new List.generate(10, (i) => i < 7 ? 
+              Icon(Icons.local_dining, color: Theme.of(context).primaryColor,) : 
+              Icon(Icons.local_dining,color: Theme.of(context).accentColor,)
+            ),
+          ),
+          Text('Puntua aqui',
+            style: TextStyle(fontSize: 12),
+          ),
+          Divider(),
+          Text('Ingredientes', 
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+
+          SizedBox(height: 10,),
+
+          Container(
+            height: size.height * 0.20,
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 25,
+                      height: 25,
+                      child: Checkbox(
+                        activeColor: Theme.of(context).primaryColor,
+                        value: true, 
+                        onChanged: (newValue) {}
+                      ),
+                    ),
+                    Text('Tomate')
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 25,
+                      height: 25,
+                      child: Checkbox(
+                        activeColor: Theme.of(context).primaryColor,
+                        value: true, 
+                        onChanged: (newValue) {}
+                      ),
+                    ),
+                    Text('Lechuga')
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          SizedBox(height: 5,),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                color: Theme.of(context).accentColor,
+                child: Text('Agregar',
+                  style: TextStyle(
+                    color: Colors.white
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+
       ),
     );
   }
@@ -213,6 +298,112 @@ class DetallePage extends StatelessWidget {
       col += text[i] + '\n';
     }
     return col;
+  }
+
+  Widget _getBottomPlatos(BuildContext context, Size size) {
+    return Container(
+      height: size.height * 0.15,
+      width: size.width,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColorLight.withOpacity(0.50),
+        // color: Colors.red,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(25))
+      ),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        children: <Widget>[
+          _getPlatoBottom(context, size),
+          SizedBox(width: 15,),
+          _getPlatoBottom(context, size),
+          SizedBox(width: 15,),
+          _getPlatoBottom(context, size),
+          SizedBox(width: 15,),
+          _getPlatoBottom(context, size),
+          SizedBox(width: 15,),
+        ],
+      ),
+    );
+  }
+
+  Widget _getPlatoBottom(BuildContext context, Size size) {
+    return Container(
+      width: size.height * 0.15,
+      height: size.height * 0.08,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          bottomLeft: Radius.circular(15)
+        ),
+        color: Colors.white
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  width: size.height * 0.12,
+                  height: double.infinity,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      bottomLeft: Radius.circular(15)
+                    ),
+                    child: Image.network(
+                      'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', 
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+
+                Positioned(
+                  top: 5,
+                  right: 5,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 2.5, vertical: 5),
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.local_dining, 
+                          color: Colors.white,
+                          size: 14,
+                        ),
+                        Text(' 3.5', 
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10
+                          ),
+                        )
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).accentColor.withOpacity(0.8),
+                      borderRadius: BorderRadius.circular(15)
+                    ),
+                  )
+                ),
+
+              ],
+            )
+          ),
+          Container(
+            color: Theme.of(context).primaryColor,
+            height: double.infinity,
+            width: size.height * 0.03,
+            child: Text(_getTextColumn('MAS'), 
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+          )
+        ],
+      ),
+    );
   }
 
 }
