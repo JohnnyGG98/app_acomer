@@ -33,6 +33,8 @@ class PlatoProvider with ChangeNotifier {
   }
 
   Future<List<Plato>> getPlatos({int page}) async {
+    if (_platosHome == null) return _platosHome;
+
     String url = '$_url?page=$page';
     return _mapearPlatos(url);
   }
