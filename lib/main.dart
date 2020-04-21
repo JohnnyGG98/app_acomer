@@ -2,6 +2,7 @@
 import 'package:app_acomer/src/pages/detalle-page.dart';
 import 'package:app_acomer/src/pages/home-page.dart';
 import 'package:app_acomer/src/pages/restaurante-page.dart';
+import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +23,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => PlatoProvider(),)
+        ChangeNotifierProvider(create: (_) => PlatoProvider(),),
+        ChangeNotifierProvider(create: (_) => ClienteProvider(),),
+
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
