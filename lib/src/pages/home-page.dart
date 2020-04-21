@@ -1,6 +1,8 @@
 import 'package:app_acomer/src/models/plato/Plato.dart';
+import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/widgets/bottom-carrito.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -8,10 +10,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    PlatoProvider platoProvider = Provider.of<PlatoProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inicio'), 
+        title: Text('Inicio'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.ac_unit), 
+            onPressed: () {
+              
+            }
+          )
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -29,7 +40,7 @@ class HomePage extends StatelessWidget {
                 )
               ),
               child: FutureBuilder(
-                future: null,
+                future: platoProvider.getPlatos(),
                 builder: (BuildContext context, AsyncSnapshot<List<Plato>> snapshot) {
                   if (snapshot.hasData) {
                     final platos = snapshot.data;
