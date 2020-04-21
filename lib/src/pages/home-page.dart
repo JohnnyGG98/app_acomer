@@ -1,4 +1,5 @@
 import 'package:app_acomer/src/models/plato/Plato.dart';
+import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/providers/restaurantes-provider.dart';
 import 'package:app_acomer/src/widgets/bottom-carrito.dart';
@@ -12,7 +13,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     PlatoProvider platoProvider = Provider.of<PlatoProvider>(context);
+<<<<<<< HEAD
     RestauranteProvider restauranteProvider = Provider.of<RestauranteProvider>(context);
+=======
+    ClienteProvider clienteProvider = Provider.of<ClienteProvider>(context);
+
+>>>>>>> 3a68ef7c8b7e4d58364ff930fa240b459c36bbfe
     return Scaffold(
       appBar: AppBar(
         title: Text('Inicio'),
@@ -20,7 +26,11 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.ac_unit), 
             onPressed: () {
+<<<<<<< HEAD
               restauranteProvider.getRestaurantes();
+=======
+              clienteProvider.getCliente(idCliente: 1);
+>>>>>>> 3a68ef7c8b7e4d58364ff930fa240b459c36bbfe
             }
           )
         ],
@@ -48,14 +58,14 @@ class HomePage extends StatelessWidget {
 
                     return GridView.builder(
                       padding: EdgeInsets.symmetric(
-                        vertical: 5.0,
-                        horizontal: 10.0
+                        vertical: 20.0,
+                        horizontal: 30.0
                       ),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        crossAxisSpacing: 7,
-                        mainAxisSpacing: 7,
-                        childAspectRatio: 2.0
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                        childAspectRatio: 1.0
                       ),
                       itemCount: platos.length,
                       itemBuilder: (BuildContext context, int i) {
@@ -65,6 +75,8 @@ class HomePage extends StatelessWidget {
                           child: Stack(
                             children: <Widget>[
                               Container(
+                                height: double.infinity,
+                                width: double.infinity,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   child: Image.network(

@@ -25,6 +25,7 @@ class PlatoProvider with ChangeNotifier {
     List<Plato> platos = new List();
     list.forEach((l) {
       final p = Plato.fromJSONMap(l);
+      print(p);
       platos.add(p);
     });
 
@@ -32,15 +33,16 @@ class PlatoProvider with ChangeNotifier {
     return platos;
   }
 
-  Future<List<Plato>> getPlatos({int page}) async {
-    if (_platosHome == null) return _platosHome;
+  Future<List<Plato>> getPlatos({int page:1}) async {
+    if (_platosHome != null) return _platosHome;
 
     String url = '$_url?page=$page';
+    print(url);
     return _mapearPlatos(url);
   }
 
   Future<List<Plato>> getPlatosRestaurante({
-    int page, 
+    int page:1, 
     int idRestaurante
   }) async {
     String url = '$_url/restaurante/$idRestaurante?page=$page';

@@ -20,7 +20,7 @@ class Plato{
     id = json['id'] ?? 0;
     idRestaurante = json['id_restaurante'];
     nombre = json['nombre'];
-    precio = json['precio'];
+    precio = double.parse(json['precio']);
     ingredientes = json['ingredientes'];
     urlImagen = json['url_imagen'] ?? 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940';
   }
