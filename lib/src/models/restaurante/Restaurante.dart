@@ -3,9 +3,9 @@ class Restaurante{
 int id;
 String nombreComercial;
 String nombreFiscal;
-DateTime inicioSuscripcion;
-DateTime ultimoPago;
-DateTime fechaProximoPago;
+String inicioSuscripcion;
+String ultimoPago;
+String fechaProximoPago;
 
 Restaurante({
 this.id,

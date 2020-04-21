@@ -4,6 +4,7 @@ import 'package:app_acomer/src/pages/home-page.dart';
 import 'package:app_acomer/src/pages/restaurante-page.dart';
 import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
+import 'package:app_acomer/src/providers/restaurantes-provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => PlatoProvider(),),
         ChangeNotifierProvider(create: (_) => ClienteProvider(),),
+        ChangeNotifierProvider(create: (_) => RestauranteProvider()),
 
 
       ],
