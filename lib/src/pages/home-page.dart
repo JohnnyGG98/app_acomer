@@ -47,14 +47,14 @@ class HomePage extends StatelessWidget {
 
                     return GridView.builder(
                       padding: EdgeInsets.symmetric(
-                        vertical: 5.0,
-                        horizontal: 10.0
+                        vertical: 20.0,
+                        horizontal: 30.0
                       ),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        crossAxisSpacing: 7,
-                        mainAxisSpacing: 7,
-                        childAspectRatio: 2.0
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                        childAspectRatio: 1.0
                       ),
                       itemCount: platos.length,
                       itemBuilder: (BuildContext context, int i) {
@@ -64,6 +64,8 @@ class HomePage extends StatelessWidget {
                           child: Stack(
                             children: <Widget>[
                               Container(
+                                height: double.infinity,
+                                width: double.infinity,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.all(Radius.circular(15)),
                                   child: Image.network(
