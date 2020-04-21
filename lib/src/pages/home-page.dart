@@ -1,4 +1,5 @@
 import 'package:app_acomer/src/models/plato/Plato.dart';
+import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/widgets/bottom-carrito.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     PlatoProvider platoProvider = Provider.of<PlatoProvider>(context);
+    ClienteProvider clienteProvider = Provider.of<ClienteProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +21,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.ac_unit), 
             onPressed: () {
-              
+              clienteProvider.getClientes();
             }
           )
         ],

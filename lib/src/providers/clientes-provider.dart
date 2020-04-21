@@ -35,17 +35,13 @@ get clientesHome => this._clientesHome;
     return clientes;
   }
 
-  Future<List<Cliente>> getPlatos({int page}) async {
+ 
+    Future<List<Cliente>> getClientes({int page}) async {
+    if (_clientesHome == null) return _clientesHome;
+
     String url = '$_url?page=$page';
     return _mapearClientes(url);
   }
 
-  Future<List<Cliente>> getPlatosRestaurante({
-    int page, 
-    int idRestaurante
-  }) async {
-    String url = '$_url/restaurante/$idRestaurante?page=$page';
-    return _mapearClientes(url);
-  }
-
+ 
 }
