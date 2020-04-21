@@ -32,6 +32,8 @@ class HomePage extends StatelessWidget {
                 future: null,
                 builder: (BuildContext context, AsyncSnapshot<List<Plato>> snapshot) {
                   if (snapshot.hasData) {
+                    final platos = snapshot.data;
+
                     return GridView.builder(
                       padding: EdgeInsets.symmetric(
                         vertical: 5.0,
@@ -43,7 +45,26 @@ class HomePage extends StatelessWidget {
                         mainAxisSpacing: 7,
                         childAspectRatio: 2.0
                       ),
-                      itemBuilder: null
+                      itemCount: platos.length,
+                      itemBuilder: (BuildContext context, int i) {
+                        return Container(
+                          height: screenSize.width * 0.30,
+                          width: screenSize.width * 0.30,
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                                  child: Image.network(
+                                    platos[i].urlImagen,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              )
+                            ],
+                          ),
+                        );
+                      }
                     );
                   } else {
                     return Center(

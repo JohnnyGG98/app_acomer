@@ -16,7 +16,6 @@ class Plato{
     this.urlImagen
   ]);
 
-
   Plato.fromJSONMap(Map <String, dynamic> json){
     id = json['id'] ?? 0;
     idRestaurante = json['id_restaurante'];
@@ -25,4 +24,5 @@ class Plato{
     ingredientes = json['ingredientes'];
     urlImagen = json['url_imagen'];
   }
+  
 }
