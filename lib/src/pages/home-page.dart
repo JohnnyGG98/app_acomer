@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.ac_unit), 
             onPressed: () {
-              clienteProvider.getClientes();
+              clienteProvider.getCliente(idCliente: 1);
             }
           )
         ],
