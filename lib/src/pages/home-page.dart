@@ -1,3 +1,4 @@
+import 'package:app_acomer/src/models/plato/Plato.dart';
 import 'package:app_acomer/src/widgets/bottom-carrito.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,30 @@ class HomePage extends StatelessWidget {
                   topLeft: Radius.circular(50),
                   topRight: Radius.circular(50)
                 )
+              ),
+              child: FutureBuilder(
+                future: null,
+                builder: (BuildContext context, AsyncSnapshot<List<Plato>> snapshot) {
+                  if (snapshot.hasData) {
+                    return GridView.builder(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 5.0,
+                        horizontal: 10.0
+                      ),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 7,
+                        mainAxisSpacing: 7,
+                        childAspectRatio: 2.0
+                      ),
+                      itemBuilder: null
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               ),
             )
           )  

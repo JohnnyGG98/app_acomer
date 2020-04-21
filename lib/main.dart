@@ -3,8 +3,16 @@ import 'package:app_acomer/src/pages/detalle-page.dart';
 import 'package:app_acomer/src/pages/home-page.dart';
 import 'package:app_acomer/src/pages/restaurante-page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp
+  ]).then((_) {
+     runApp(MyApp());
+  });
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -39,7 +47,7 @@ class MyApp extends StatelessWidget {
         primaryColorLight: Color.fromRGBO(236, 233, 222, 1),
         primarySwatch: Colors.blue,
       ),
-      initialRoute: 'restaurante',
+      initialRoute: '/',
       routes: {
         '/': (BuildContext ct) => HomePage(),
         'detalle': (BuildContext ct) => DetallePage(),
