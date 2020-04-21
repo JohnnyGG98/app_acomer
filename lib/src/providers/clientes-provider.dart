@@ -30,6 +30,7 @@ get clientesHome => this._clientesHome;
       clientes.add(c);
     });
 
+    print(clientes);
     clientesHome = clientes;
     return clientes;
   }
