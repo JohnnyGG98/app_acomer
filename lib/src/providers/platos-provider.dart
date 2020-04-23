@@ -9,6 +9,7 @@ class PlatoProvider with ChangeNotifier {
   
   String _url = '${BASE_URL}api/v1/plato';
   List<Plato> _platosHome;
+  Plato _plato;
 
   set platosHome (List<Plato> platos) {
     _platosHome = platos;
@@ -16,6 +17,12 @@ class PlatoProvider with ChangeNotifier {
   }
 
   get platosHome => this._platosHome;
+
+  get plato => this._plato;
+
+  set plato (Plato plato) {
+    _plato = plato;
+  }
 
   Future<List<Plato>> _mapearPlatos(String url) async {
     final res = await http.get(url, headers: TOKE_HEADER);
@@ -27,8 +34,6 @@ class PlatoProvider with ChangeNotifier {
       final p = Plato.fromJSONMap(l);
       platos.add(p);
     });
-
-    platosHome = platos;
     return platos;
   }
 
@@ -36,14 +41,20 @@ class PlatoProvider with ChangeNotifier {
     String url = '$_url/$idPlato';
     final res = await http.get(url, headers: TOKE_HEADER);
     final Map<String, dynamic> data = json.decode(res.body);
-    return Plato.fromJSONMap(data); 
+    print(data);
+    Plato plato = Plato.fromJSONMap(data['data']); 
+    this.plato = plato; 
+    return plato;
   } 
 
   Future<List<Plato>> getPlatos({int page:1}) async {
     if (_platosHome != null) return _platosHome;
 
     String url = '$_url?page=$page';
-    return _mapearPlatos(url);
+    
+    Future<List<Plato>> platos = _mapearPlatos(url);
+    platosHome = await platos;
+    return platosHome;
   }
 
   Future<List<Plato>> getPlatosRestaurante({

@@ -59,10 +59,10 @@ class MyApp extends StatelessWidget {
           primaryColorLight: Color.fromRGBO(236, 233, 222, 1),
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/',
+        initialRoute: 'detalle',
         routes: {
           '/': (BuildContext ct) => HomePage(),
-          'detalle': (BuildContext ct) => DetallePage(),
+          'detalle': (BuildContext ct) => DetallePage(idPlato: 1,),
           'restaurante': (BuildContext ct) => RestaurantePage(),
         },
       ),

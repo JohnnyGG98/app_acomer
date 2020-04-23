@@ -5,7 +5,7 @@ class ImagenPlato extends StatelessWidget {
 
   final urlImagen;
 
-  ImagenPlato({this.urlImagen});
+  ImagenPlato({@required this.urlImagen});
 
   @override
   Widget build(BuildContext context) {
