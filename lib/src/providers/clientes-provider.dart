@@ -17,7 +17,7 @@ class ClienteProvider with ChangeNotifier {
   get clientesHome => this._clientesHome;
 
   Future<List<Cliente>> _mapearClientes(String url) async {
-    final res = await http.get(url);
+    final res = await http.get(url, headers: TOKE_HEADER);
     final data = json.decode(res.body);
     final List<dynamic> list = data['data'];
 
@@ -42,7 +42,7 @@ class ClienteProvider with ChangeNotifier {
 
   Future<Cliente> getCliente({@required int idCliente}) async {
     String url = '$_url/$idCliente';
-    final res = await http.get(url);
+    final res = await http.get(url, headers: TOKE_HEADER);
     final data = json.decode(res.body);
     final Map<String, dynamic> decodeData = data['data'];
     print(decodeData);

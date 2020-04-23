@@ -18,7 +18,7 @@ class RestauranteProvider with ChangeNotifier{
   get restaurantesHome => this._restauranteHome;
 
   Future <List<Restaurante>> _mapearRestaurantes(String url) async {
-    final res = await http.get(url);
+    final res = await http.get(url, headers: TOKE_HEADER);
     final data = json.decode(res.body);
     final List<dynamic> list = data['data'];
 

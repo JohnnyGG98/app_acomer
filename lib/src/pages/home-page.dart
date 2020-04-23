@@ -3,6 +3,7 @@ import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/providers/restaurantes-provider.dart';
 import 'package:app_acomer/src/widgets/bottom-carrito.dart';
+import 'package:app_acomer/src/widgets/imagen-plato.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,12 +14,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     PlatoProvider platoProvider = Provider.of<PlatoProvider>(context);
-<<<<<<< HEAD
     RestauranteProvider restauranteProvider = Provider.of<RestauranteProvider>(context);
-=======
     ClienteProvider clienteProvider = Provider.of<ClienteProvider>(context);
 
->>>>>>> 3a68ef7c8b7e4d58364ff930fa240b459c36bbfe
     return Scaffold(
       appBar: AppBar(
         title: Text('Inicio'),
@@ -26,11 +24,8 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.ac_unit), 
             onPressed: () {
-<<<<<<< HEAD
               restauranteProvider.getRestaurantes();
-=======
               clienteProvider.getCliente(idCliente: 1);
->>>>>>> 3a68ef7c8b7e4d58364ff930fa240b459c36bbfe
             }
           )
         ],
@@ -74,17 +69,7 @@ class HomePage extends StatelessWidget {
                           width: screenSize.width * 0.30,
                           child: Stack(
                             children: <Widget>[
-                              Container(
-                                height: double.infinity,
-                                width: double.infinity,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                                  child: Image.network(
-                                    platos[i].urlImagen,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              )
+                              ImagenPlato(urlImagen: platos[i].urlImagen,)
                             ],
                           ),
                         );
