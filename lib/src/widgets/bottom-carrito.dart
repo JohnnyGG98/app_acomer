@@ -1,4 +1,6 @@
+import 'package:app_acomer/src/providers/carrito-provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class BottomCarrito extends StatelessWidget {
@@ -6,6 +8,7 @@ class BottomCarrito extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CarritoProvider carritoProvider = Provider.of<CarritoProvider>(context);
     return Container(
       color: Theme.of(context).primaryColor,
       width: double.infinity,
@@ -14,7 +17,7 @@ class BottomCarrito extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text('3 platos',
+          Text('${carritoProvider.numPlatos} platos',
             style: TextStyle(
               fontSize: 22,
               color: Colors.white

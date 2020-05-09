@@ -1,4 +1,5 @@
 import 'package:app_acomer/src/models/plato/Plato.dart';
+import 'package:app_acomer/src/providers/carrito-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/widgets/bottom-carrito.dart';
 import 'package:app_acomer/src/widgets/imagen-plato.dart';
@@ -178,6 +179,8 @@ class _DetallePageState extends State<DetallePage> {
   }
 
   Widget _getIngredientes(BuildContext context, Size size) {
+    CarritoProvider carritoProvider = Provider.of<CarritoProvider>(context);
+
     return Container(
       height: size.height * 0.50,
       width: size.width * 0.70,
@@ -264,9 +267,14 @@ class _DetallePageState extends State<DetallePage> {
             children: <Widget>[
               Container(
                 color: Theme.of(context).accentColor,
-                child: Text('Agregar',
-                  style: TextStyle(
-                    color: Colors.white
+                child: GestureDetector(
+                    onTap: () {
+                      carritoProvider.agregarPlato(_plato);
+                    },
+                    child: Text('Agregar',
+                    style: TextStyle(
+                      color: Colors.white
+                    ),
                   ),
                 ),
               )

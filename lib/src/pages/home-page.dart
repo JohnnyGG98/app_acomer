@@ -1,4 +1,5 @@
 import 'package:app_acomer/src/models/plato/Plato.dart';
+import 'package:app_acomer/src/pages/detalle-page.dart';
 import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/providers/restaurantes-provider.dart';
@@ -64,13 +65,22 @@ class HomePage extends StatelessWidget {
                       ),
                       itemCount: platos.length,
                       itemBuilder: (BuildContext context, int i) {
-                        return Container(
-                          height: screenSize.width * 0.30,
-                          width: screenSize.width * 0.30,
-                          child: Stack(
-                            children: <Widget>[
-                              ImagenPlato(urlImagen: platos[i].urlImagen,)
-                            ],
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => DetallePage(idPlato: platos[i].id)
+                              )
+                            );
+                          },
+                            child: Container(
+                            height: screenSize.width * 0.30,
+                            width: screenSize.width * 0.30,
+                            child: Stack(
+                              children: <Widget>[
+                                ImagenPlato(urlImagen: platos[i].urlImagen,)
+                              ],
+                            ),
                           ),
                         );
                       }

@@ -19,7 +19,7 @@ class Plato{
   ]);
 
   Plato.fromJSONMap(Map <String, dynamic> json){
-    id = json['id'] ?? 0;
+    id = json['id_plato'] ?? 15;
     idRestaurante = json['id_restaurante'];
     nombre = json['nombre'];
     precio = double.parse(json['precio'] ?? "0");

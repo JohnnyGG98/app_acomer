@@ -2,6 +2,7 @@
 import 'package:app_acomer/src/pages/detalle-page.dart';
 import 'package:app_acomer/src/pages/home-page.dart';
 import 'package:app_acomer/src/pages/restaurante-page.dart';
+import 'package:app_acomer/src/providers/carrito-provider.dart';
 import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/providers/restaurantes-provider.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PlatoProvider(),),
         ChangeNotifierProvider(create: (_) => ClienteProvider(),),
         ChangeNotifierProvider(create: (_) => RestauranteProvider()),
-
+        ChangeNotifierProvider(create: (_) => CarritoProvider()),
 
       ],
       child: MaterialApp(
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
           primaryColorLight: Color.fromRGBO(236, 233, 222, 1),
           primarySwatch: Colors.blue,
         ),
-        initialRoute: 'detalle',
+        initialRoute: '/',
         routes: {
           '/': (BuildContext ct) => HomePage(),
           'detalle': (BuildContext ct) => DetallePage(idPlato: 1,),
