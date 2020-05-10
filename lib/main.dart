@@ -2,6 +2,7 @@
 import 'package:app_acomer/src/pages/detalle-page.dart';
 import 'package:app_acomer/src/pages/home-page.dart';
 import 'package:app_acomer/src/pages/restaurante-page.dart';
+import 'package:app_acomer/src/pages/restaurante/platos-restaurante.dart';
 import 'package:app_acomer/src/providers/carrito-provider.dart';
 import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
           '/': (BuildContext ct) => HomePage(),
           'detalle': (BuildContext ct) => DetallePage(idPlato: 1,),
           'restaurante': (BuildContext ct) => RestaurantePage(),
+          'platosRest': (BuildContext ct) => PlatosRestaurantePage(),
         },
       ),
     );

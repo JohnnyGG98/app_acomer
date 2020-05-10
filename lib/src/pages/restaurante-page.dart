@@ -10,15 +10,14 @@ class RestaurantePage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Detalle'), 
       ),
-      body: Stack(
-        children: <Widget>[
-          _getTopInfo(context, screenSize),
-          Positioned(
-            top: screenSize.height * 0.55,
-            bottom: 0,
-            child: _getMenu(context, screenSize),
-          )
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            _getTopInfo(context, screenSize),
+            _getMenuTitle(context),
+            _getMenu(context, screenSize)
+          ],
+        ),
       ),
       bottomNavigationBar: BottomCarrito(),
     );
@@ -30,8 +29,8 @@ class RestaurantePage extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 20,),
         Container(
-          width: size.width * 0.85,
-          height: size.height * 0.20,
+          width: 350,
+          height: 180,
           child: ClipRRect(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(15),
@@ -87,8 +86,7 @@ class RestaurantePage extends StatelessWidget {
 
   Widget _getCategorias(BuildContext context, Size size) {
     return Container(
-      height: size.height * 0.07,
-      // color: Colors.red,
+      height: 70,
       child: ListView(
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         scrollDirection: Axis.horizontal,
@@ -96,6 +94,8 @@ class RestaurantePage extends StatelessWidget {
           _getCategoria(context, 'Comida rapida'),
           SizedBox(width: 15,),
           _getCategoria(context, 'Comida sierra'),
+          SizedBox(width: 15,),
+          _getCategoria(context, 'Platos a la carta'),
           SizedBox(width: 15,),
           _getCategoria(context, 'Platos a la carta'),
           SizedBox(width: 15,),
@@ -200,33 +200,42 @@ class RestaurantePage extends StatelessWidget {
     );
   }
 
-  Widget _getMenu(BuildContext context, Size size) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          // color: Colors.white,
-          child: Text('Menu', 
-            style: TextStyle(
-              fontSize: 18
-            ),
+  Widget _getMenuTitle(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed('platosRest');
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        width: double.infinity,
+        child: Text('Menu', 
+          style: TextStyle(
+            fontSize: 18
           ),
+          textAlign: TextAlign.left,
         ),
-        Expanded(
-          child: Container(
-            height: size.height,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColorLight,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25))
-            ),
-            child: Row(
-
-            ),
-          )
-        )
-      ],
+      ),
+    );
+  }
+  
+  Widget _getMenu(BuildContext context, Size size) {
+    return Container(
+      width: double.infinity,
+      height: 300,
+      // decoration: BoxDecoration(
+      //   color: Theme.of(context).primaryColorLight,
+      //   borderRadius: BorderRadius.vertical(top: Radius.circular(25))
+      // ),
+      child: ListView(
+        children: <Widget>[
+          Text('data'),
+          Text('data'),
+          Text('data'),
+          Text('data'),
+          Text('data'),
+          Text('data'),
+        ],
+      ),
     );
   }
 

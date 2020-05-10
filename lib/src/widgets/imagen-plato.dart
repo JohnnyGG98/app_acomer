@@ -17,6 +17,7 @@ class ImagenPlato extends StatelessWidget {
           height: double.infinity,
           width: double.infinity,
           child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(

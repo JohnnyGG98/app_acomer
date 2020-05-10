@@ -38,33 +38,60 @@ class _DetallePageState extends State<DetallePage> {
             return Stack(
               children: <Widget>[
                 Positioned(
-                  top: screenSize.height * 0.05,
+                  top: 45,
                   child: _getInfo(context, screenSize)
                 ),
 
                 Positioned(
-                  top: screenSize.height * 0.025,
-                  right: screenSize.height * 0.025,
+                  top: 15,
+                  right: 15,
                   child: _getImagen(context, screenSize)
                 ),
 
-                Positioned(
-                  right: 0,
-                  top: screenSize.height * 0.32,
-                  child: _getIngredientes(context, screenSize)
-                ),
 
-                Positioned(
-                  left: 0,
-                  top: screenSize.height * 0.35,
-                  child: _getRestaurante(context, screenSize)
-                ),
+                SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 270,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          _getRestaurante(context, screenSize),
+                          Expanded(
+                            child: _getIngredientes(context, screenSize)
+                          )
+                        ],
+                      ),
+                      _getBottomPlatos(context, screenSize)
+                    ],
+                  ),
+                )
 
-                Positioned(
-                  bottom: 0,
-                  // left: 0,
-                  child: _getBottomPlatos(context, screenSize)
-                ),
+                // Positioned(
+                //   right: 0,
+                //   left: 0,
+                //   top: 270,
+                //   child: SafeArea(
+                //     child: SingleChildScrollView(
+                //       child: Column(
+                //         children: <Widget>[
+                //           Row(
+                //             mainAxisAlignment: MainAxisAlignment.start,
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             children: <Widget>[
+                //               _getRestaurante(context, screenSize),
+                //               Expanded(
+                //                 child: _getIngredientes(context, screenSize)
+                //               )
+                //             ],
+                //           ),
+                //           _getBottomPlatos(context, screenSize)
+                //         ],
+                //       ),
+                //     )
+                //   )
+                // ),
                 
               ],
             );
@@ -81,12 +108,11 @@ class _DetallePageState extends State<DetallePage> {
 
   Widget _getInfo(BuildContext context, Size screen) {
     return Container(
-      width: screen.width * 0.40,
-      height: screen.height * 0.35,
+      width: 160,
+      height: 350,
       padding: EdgeInsets.symmetric(horizontal: 15),
       color: Theme.of(context).primaryColorLight,
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: 20,),
           Text(_plato.nombre, 
@@ -118,19 +144,17 @@ class _DetallePageState extends State<DetallePage> {
 
   Widget _getImagen(BuildContext context, Size size) {
     return Container(
-      width: size.width * 0.55,
-      height: size.width * 0.60,
+      width: 210,
+      height: 210,
       child: Stack(
         children: <Widget>[
           Container(
-            width: size.width * 0.55,
-            height: size.width * 0.55,
             child: ImagenPlato(urlImagen: _plato.urlImagen,)
           ),
 
           Positioned(
-            top: 15,
-            right: 15,
+            top: 10,
+            right: 10,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Row(
@@ -152,9 +176,9 @@ class _DetallePageState extends State<DetallePage> {
           ),
 
           Positioned(
-            left: (size.width * 0.55) / 4,
-            right: (size.width * 0.55) / 4,
-            bottom: 0,
+            left: 35,
+            right: 35,
+            bottom: 10,
             child: Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).accentColor.withOpacity(0.8),
@@ -180,10 +204,8 @@ class _DetallePageState extends State<DetallePage> {
 
   Widget _getIngredientes(BuildContext context, Size size) {
     CarritoProvider carritoProvider = Provider.of<CarritoProvider>(context);
-
     return Container(
-      height: size.height * 0.50,
-      width: size.width * 0.70,
+      margin: EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColorLight,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(15)),
@@ -224,7 +246,7 @@ class _DetallePageState extends State<DetallePage> {
           SizedBox(height: 10,),
 
           Container(
-            height: size.height * 0.20,
+            height: 200,
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
@@ -267,6 +289,7 @@ class _DetallePageState extends State<DetallePage> {
             children: <Widget>[
               Container(
                 color: Theme.of(context).accentColor,
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: GestureDetector(
                     onTap: () {
                       carritoProvider.agregarPlato(_plato);
@@ -287,38 +310,42 @@ class _DetallePageState extends State<DetallePage> {
   }
 
   Widget _getRestaurante(BuildContext context, Size size) {
-    return Container(
-      height: size.height * 0.50,
-      margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-      child: Column(
-        children: <Widget>[
-          Container(
-            color: Colors.black26,
-            height: size.width * 0.20,
-            width: size.width * 0.20,
-            child: Image.network(
-              'https://images.pexels.com/photos/1162361/pexels-photo-1162361.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Container(
-            height: (size.height * 0.30) - (size.width * 0.20),
-            width: size.width * 0.20,
-            decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
-              borderRadius: BorderRadius.only(bottomRight: Radius.circular(15))
-            ),
-            child: Text(_getTextColumn(_plato.nombreRestaurante),
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed('restaurante');
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+        child: Column(
+          children: <Widget>[
+            Container(
+              color: Colors.black26,
+              height: 75,
+              width: 75,
+              child: Image.network(
+                'https://images.pexels.com/photos/1162361/pexels-photo-1162361.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                fit: BoxFit.cover,
               ),
-              textAlign: TextAlign.center,
             ),
-            padding: EdgeInsets.symmetric(vertical: 20),
-          )
-        ],
+            Container(
+              height: 200,
+              width: 75,
+              decoration: BoxDecoration(
+                color: Theme.of(context).accentColor,
+                borderRadius: BorderRadius.only(bottomRight: Radius.circular(15))
+              ),
+              child: Text(_getTextColumn(_plato.nombreRestaurante),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                ),
+                textAlign: TextAlign.center,
+              ),
+              padding: EdgeInsets.symmetric(vertical: 20),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -334,13 +361,13 @@ class _DetallePageState extends State<DetallePage> {
   Widget _getBottomPlatos(BuildContext context, Size size) {
 
     return Container(
-      height: size.height * 0.15,
-      width: size.width,
+      height: 120,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColorLight.withOpacity(0.50),
-        // color: Colors.red,
         borderRadius: BorderRadius.only(topLeft: Radius.circular(25))
       ),
+      
       child: FutureBuilder(
         future: _platoProvider.getPlatosRestaurante(
           idRestaurante: _plato.idRestaurante
@@ -381,8 +408,8 @@ class _DetallePageState extends State<DetallePage> {
         );
       },
       child: Container(
-        width: size.height * 0.15,
-        height: size.height * 0.08,
+        width: 150,
+        height: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15),
@@ -391,13 +418,14 @@ class _DetallePageState extends State<DetallePage> {
           color: Colors.white
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Expanded(
               child: Stack(
                 children: <Widget>[
                   Container(
-                    width: size.height * 0.12,
+                    width: 150,
                     height: double.infinity,
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
@@ -438,18 +466,20 @@ class _DetallePageState extends State<DetallePage> {
                 ],
               )
             ),
-            Container(
-              color: Theme.of(context).primaryColor,
-              height: double.infinity,
-              width: size.height * 0.03,
-              child: Text(_getTextColumn('MAS'), 
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
+            Center(
+              child: Container(
+                color: Theme.of(context).primaryColor,
+                height: double.infinity,
+                width: 30,
+                child: Text(_getTextColumn('MAS'), 
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
+                padding: EdgeInsets.symmetric(vertical: 20),
               ),
-              padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
             )
           ],
         ),

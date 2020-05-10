@@ -3,6 +3,7 @@ import 'package:app_acomer/src/pages/detalle-page.dart';
 import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/providers/restaurantes-provider.dart';
+import 'package:app_acomer/src/utils/c.dart';
 import 'package:app_acomer/src/widgets/bottom-carrito.dart';
 import 'package:app_acomer/src/widgets/imagen-plato.dart';
 import 'package:flutter/material.dart';
@@ -33,65 +34,26 @@ class HomePage extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
+          Cons.userLogueado ? 
           Container(
-            height: screenSize.height * 0.25,
+            height: 160,
             child: _getTop(screenSize),
+          ) : Container(
+            height: 15,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            child: Text('Mas cercanos a ti:',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.left,
+            )
           ),
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(236, 233, 222, 1),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(50),
-                  topRight: Radius.circular(50)
-                )
-              ),
-              child: FutureBuilder(
-                future: platoProvider.getPlatos(),
-                builder: (BuildContext context, AsyncSnapshot<List<Plato>> snapshot) {
-                  if (snapshot.hasData) {
-                    final platos = snapshot.data;
-
-                    return GridView.builder(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 30.0
-                      ),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
-                        childAspectRatio: 1.0
-                      ),
-                      itemCount: platos.length,
-                      itemBuilder: (BuildContext context, int i) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => DetallePage(idPlato: platos[i].id)
-                              )
-                            );
-                          },
-                            child: Container(
-                            height: screenSize.width * 0.30,
-                            width: screenSize.width * 0.30,
-                            child: Stack(
-                              children: <Widget>[
-                                ImagenPlato(urlImagen: platos[i].urlImagen,)
-                              ],
-                            ),
-                          ),
-                        );
-                      }
-                    );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              ),
+            child: InkWell(
+              child: _getBody(context, platoProvider, screenSize),
+              splashColor: Colors.transparent,
             )
           )  
         ],
@@ -106,10 +68,12 @@ class HomePage extends StatelessWidget {
     return Stack(
       children: <Widget>[
         _getOpcionesTop(size),
-        Center(
+        Positioned(
+          top: 50,
+          left: 25,
+          right: 25,
           child: Container(
-            height: (size.height * 0.25) / 2,
-            width: size.width * 0.80,
+            height: 100,
             decoration: BoxDecoration(
               color: Color.fromRGBO(236, 233, 222, 1),
               borderRadius: BorderRadius.all(Radius.circular(25))
@@ -117,9 +81,9 @@ class HomePage extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
-                  height: ((size.height * 0.18) / 2),
-                  width: ((size.height * 0.18) / 2),
-                  margin: EdgeInsets.symmetric(horizontal: (size.height * 0.035) / 2),
+                  height: 80,
+                  width: 80,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(15))
                   ),
@@ -134,7 +98,7 @@ class HomePage extends StatelessWidget {
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: (size.height * 0.035) / 2),
+                    margin: EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,7 +121,7 @@ class HomePage extends StatelessWidget {
                         GestureDetector(
                           onTap: (){},
                           child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: (size.height * 0.035) / 2),
+                            margin: EdgeInsets.symmetric(horizontal: 15),
                             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -178,23 +142,15 @@ class HomePage extends StatelessWidget {
           ),
         ),
 
-        Positioned(
-          bottom: size.height * 0.02,
-          left: size.height * 0.02,
-          child: Text('Mas cercanos a ti:',
-            style: TextStyle(fontSize: 16),
-          )
-        )
-
       ],
     );
   }
 
   Widget _getOpcionesTop(Size size) {
     return Positioned(
-      top: size.height * 0.015,
+      top: 10,
       child: Container(
-        height: size.height * 0.10,
+        height: 75,
         width: size.width * 0.75,
         decoration: BoxDecoration(
           color: Color.fromRGBO(236, 233, 222, 0.5),
@@ -231,6 +187,64 @@ class HomePage extends StatelessWidget {
           ],
         ),
       )
+    );
+  }
+
+  Widget _getBody(BuildContext context, PlatoProvider platoProvider, Size screenSize) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(236, 233, 222, 1),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(50),
+          topRight: Radius.circular(50)
+        )
+      ),
+      child: FutureBuilder(
+        future: platoProvider.getPlatos(),
+        builder: (BuildContext context, AsyncSnapshot<List<Plato>> snapshot) {
+          if (snapshot.hasData) {
+            final platos = snapshot.data;
+
+            return GridView.builder(
+              padding: EdgeInsets.symmetric(
+                vertical: 20.0,
+                horizontal: 30.0
+              ),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                childAspectRatio: 1.0
+              ),
+              itemCount: platos.length,
+              itemBuilder: (BuildContext context, int i) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => DetallePage(idPlato: platos[i].id)
+                      )
+                    );
+                  },
+                    child: Container(
+                    height: screenSize.width * 0.30,
+                    width: screenSize.width * 0.30,
+                    child: Stack(
+                      children: <Widget>[
+                        ImagenPlato(urlImagen: platos[i].urlImagen,)
+                      ],
+                    ),
+                  ),
+                );
+              }
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 
