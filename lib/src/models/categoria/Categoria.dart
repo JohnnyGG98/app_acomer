@@ -1,21 +1,13 @@
-class Restaurante{
+class Categoria {
+  int id;
+  String nombre;
+  int numeroPlatos;
 
-int id;
-String nombre;
-String numeroPlatos;
+  Categoria({this.id, this.nombre, this.numeroPlatos});
 
-Restaurante({
-this.id,
-this.nombre,
-this.numeroPlatos
-});
-
-Restaurante.fromJSONMap(Map<String,dynamic> json){
-  id = json['id'];
-  nombre = json['nombre'];
-  numeroPlatos = json['numero_platos'];
- 
-}
-
-
+  Categoria.fromJSONMap(Map<String, dynamic> json) {
+    id = json['id'];
+    nombre = json['nombre'];
+    numeroPlatos = json['numero_platos'];
+  }
 }

@@ -1,23 +1,65 @@
+import 'package:app_acomer/src/pages/detalle-page.dart';
+import 'package:app_acomer/src/pages/restaurante/platos-restaurante.dart';
+import 'package:app_acomer/src/providers/categoria-provider.dart';
+import 'package:app_acomer/src/providers/platos-provider.dart';
+import 'package:app_acomer/src/providers/restaurantes-provider.dart';
 import 'package:app_acomer/src/widgets/bottom-carrito.dart';
+import 'package:app_acomer/src/widgets/imagen-plato.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class RestaurantePage extends StatelessWidget {
+class RestaurantePage extends StatefulWidget {
+
+  final idRestaurante; 
+
+  RestaurantePage({@required this.idRestaurante});
+
+  @override
+  _RestaurantePageState createState() => _RestaurantePageState();
+}
+
+class _RestaurantePageState extends State<RestaurantePage> {
+  
+  RestauranteProvider _restauranteProvider;
+  PlatoProvider _platoProvider;
+  Restaurante _restaurante;
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    _restauranteProvider = Provider.of<RestauranteProvider>(context);
+    _platoProvider = Provider.of<PlatoProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalle'), 
+        title: Text('Restaurante ${widget.idRestaurante}'), 
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            _getTopInfo(context, screenSize),
-            _getMenuTitle(context),
-            _getMenu(context, screenSize)
-          ],
-        ),
+      body: FutureBuilder(
+        future: _restauranteProvider.getOne(widget.idRestaurante),
+        builder: (BuildContext context, AsyncSnapshot<Restaurante> snapshot) {
+          if ( snapshot.hasData ) {
+            _restaurante = snapshot.data;
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  _getTopInfo(context, screenSize),
+                  _getMenuTitle(context),
+                  _getMenu(context, screenSize)
+                ],
+              ),
+            );
+          } 
+          
+          if ( snapshot.hasError ) {
+            return Center(
+              child: Text('No encontramos lo que buscaba!'),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
       bottomNavigationBar: BottomCarrito(),
     );
@@ -58,7 +100,7 @@ class RestaurantePage extends StatelessWidget {
 
               SizedBox(height: 10,),
 
-              Text('Route 66',
+              Text(_restaurante.nombreComercial,
                 style: TextStyle(
                   fontSize: 24,
                   color: Theme.of(context).primaryColor,
@@ -85,24 +127,47 @@ class RestaurantePage extends StatelessWidget {
   }
 
   Widget _getCategorias(BuildContext context, Size size) {
+    CategoriaProvider provider = Provider.of<CategoriaProvider>(context);
+
     return Container(
       height: 70,
-      child: ListView(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-        scrollDirection: Axis.horizontal,
-        children: <Widget>[
-          _getCategoria(context, 'Comida rapida'),
-          SizedBox(width: 15,),
-          _getCategoria(context, 'Comida sierra'),
-          SizedBox(width: 15,),
-          _getCategoria(context, 'Platos a la carta'),
-          SizedBox(width: 15,),
-          _getCategoria(context, 'Platos a la carta'),
-          SizedBox(width: 15,),
-          _getCategoria(context, 'Platos a la carta'),
-          SizedBox(width: 15,),
-        ],
-      ),
+      child: FutureBuilder(
+        future: provider.getByRestaurante(widget.idRestaurante),
+        builder: (BuildContext context, AsyncSnapshot<List<Categoria>> snapshot) {
+          if ( snapshot.hasData ) {
+            List<Categoria> categorias = snapshot.data;
+            if (categorias.length > 0) {
+              return ListView.builder(
+                itemCount: categorias.length,
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) {
+                  return Row(
+                    children: <Widget>[
+                      _getCategoria(context, categorias[index].nombre),
+                      SizedBox(width: 15,)
+                    ],
+                  );
+                }
+              );
+            } else {
+              return Center(
+                child: Text('Este restaurante no tiene categorias.'),
+              );
+            }
+          }
+
+          if ( snapshot.hasError ) {
+            return Center(
+              child: Text('Error al buscar'),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      )
     );
   }
 
@@ -203,7 +268,15 @@ class RestaurantePage extends StatelessWidget {
   Widget _getMenuTitle(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed('platosRest');
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => PlatosRestaurantePage(
+              _restaurante.nombreComercial,
+              _platoProvider,
+              widget.idRestaurante
+            )
+          )
+        );
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -217,25 +290,64 @@ class RestaurantePage extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _getMenu(BuildContext context, Size size) {
     return Container(
       width: double.infinity,
-      height: 300,
-      // decoration: BoxDecoration(
-      //   color: Theme.of(context).primaryColorLight,
-      //   borderRadius: BorderRadius.vertical(top: Radius.circular(25))
-      // ),
-      child: ListView(
-        children: <Widget>[
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-          Text('data'),
-        ],
+      height: 500,
+      child: FutureBuilder(
+        future: _platoProvider.getByRestaurante(
+          idRestaurante: widget.idRestaurante
+        ),
+        builder: (BuildContext context, AsyncSnapshot<List<Plato>> snapshot) {
+          if ( snapshot.hasData ) {
+            List platos = snapshot.data;
+
+            if (platos.length > 0) {
+              return ListView.builder(
+                itemCount: platos.length,
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                itemBuilder: (BuildContext context, int index) {
+                  return _getPlatoMenu(context, platos[index]);
+                }
+              );
+            } else {
+              return Center(
+                child: Text('No tenemos platos en este restaurante'),
+              );
+            }
+          }
+
+          if ( snapshot.hasError ) {
+            return Center(
+              child: Text('No pudimos encontrar platos...'),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        }
+      )
+    );
+  }
+
+  Widget _getPlatoMenu(BuildContext context, Plato plato) {
+    return ListTile(
+      leading: Container(
+        height: 60,
+        width: 60,
+        child: ImagenPlato(urlImagen: plato.urlImagen,),
       ),
+      title: Text(plato.nombre),
+      subtitle: Text('\$${plato.precio.toStringAsFixed(2)}'),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => DetallePage(idPlato: plato.id)
+          )
+        );
+      },
     );
   }
 

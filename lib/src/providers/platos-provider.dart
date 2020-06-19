@@ -5,6 +5,8 @@ import 'package:app_acomer/src/utils/c.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
+export 'package:app_acomer/src/models/plato/Plato.dart';
+
 class PlatoProvider with ChangeNotifier {
   
   String _url = '${BASE_URL}api/v1/plato';
@@ -41,8 +43,7 @@ class PlatoProvider with ChangeNotifier {
     String url = '$_url/$idPlato';
     final res = await http.get(url, headers: TOKE_HEADER);
     final Map<String, dynamic> data = json.decode(res.body);
-    print(data);
-    Plato plato = Plato.fromJSONMap(data['data']); 
+    Plato plato = Plato.fromJSONMap(data['data']);
     this.plato = plato; 
     return plato;
   } 
@@ -57,9 +58,9 @@ class PlatoProvider with ChangeNotifier {
     return platosHome;
   }
 
-  Future<List<Plato>> getPlatosRestaurante({
+  Future<List<Plato>> getByRestaurante({
     int page:1, 
-    int idRestaurante
+    @required int idRestaurante
   }) async {
     String url = '$_url/restaurante/$idRestaurante?page=$page';
     return _mapearPlatos(url);

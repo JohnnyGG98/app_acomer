@@ -4,7 +4,7 @@ class Plato{
   int idRestaurante;
   String nombre;
   double precio;
-  Map <String, dynamic> ingredientes;
+  List <dynamic> ingredientes;
   String urlImagen;
   String nombreRestaurante;
 
@@ -25,7 +25,8 @@ class Plato{
     precio = double.parse(json['precio'] ?? "0");
     ingredientes = json['ingredientes'];
     urlImagen = json['url_imagen'] ?? 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940';
-    nombreRestaurante = json['nombre_restaurante'] ?? 'REST';
+    nombreRestaurante = json['restaurante'] != null ? 
+      json['restaurante']['nombre_comercial'] : 'Rest';
   }
 
 }

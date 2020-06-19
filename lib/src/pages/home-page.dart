@@ -42,6 +42,7 @@ class HomePage extends StatelessWidget {
             height: 15,
           ),
           Container(
+            width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             child: Text('Mas cercanos a ti:',
               style: TextStyle(

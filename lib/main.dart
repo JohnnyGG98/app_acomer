@@ -4,6 +4,7 @@ import 'package:app_acomer/src/pages/home-page.dart';
 import 'package:app_acomer/src/pages/restaurante-page.dart';
 import 'package:app_acomer/src/pages/restaurante/platos-restaurante.dart';
 import 'package:app_acomer/src/providers/carrito-provider.dart';
+import 'package:app_acomer/src/providers/categoria-provider.dart';
 import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/providers/restaurantes-provider.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ClienteProvider(),),
         ChangeNotifierProvider(create: (_) => RestauranteProvider()),
         ChangeNotifierProvider(create: (_) => CarritoProvider()),
-
+        ChangeNotifierProvider(create: (_) => CategoriaProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -65,8 +66,6 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (BuildContext ct) => HomePage(),
           'detalle': (BuildContext ct) => DetallePage(idPlato: 1,),
-          'restaurante': (BuildContext ct) => RestaurantePage(),
-          'platosRest': (BuildContext ct) => PlatosRestaurantePage(),
         },
       ),
     );

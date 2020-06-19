@@ -1,4 +1,5 @@
 import 'package:app_acomer/src/models/plato/Plato.dart';
+import 'package:app_acomer/src/pages/restaurante-page.dart';
 import 'package:app_acomer/src/providers/carrito-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/widgets/bottom-carrito.dart';
@@ -67,31 +68,6 @@ class _DetallePageState extends State<DetallePage> {
                     ],
                   ),
                 )
-
-                // Positioned(
-                //   right: 0,
-                //   left: 0,
-                //   top: 270,
-                //   child: SafeArea(
-                //     child: SingleChildScrollView(
-                //       child: Column(
-                //         children: <Widget>[
-                //           Row(
-                //             mainAxisAlignment: MainAxisAlignment.start,
-                //             crossAxisAlignment: CrossAxisAlignment.start,
-                //             children: <Widget>[
-                //               _getRestaurante(context, screenSize),
-                //               Expanded(
-                //                 child: _getIngredientes(context, screenSize)
-                //               )
-                //             ],
-                //           ),
-                //           _getBottomPlatos(context, screenSize)
-                //         ],
-                //       ),
-                //     )
-                //   )
-                // ),
                 
               ],
             );
@@ -185,7 +161,7 @@ class _DetallePageState extends State<DetallePage> {
                 borderRadius: BorderRadius.circular(15)
               ),
               padding: EdgeInsets.symmetric(vertical: 10),
-              child: Text('\$ ${_plato.precio}', 
+              child: Text('\$ ${_plato.precio.toStringAsFixed(2)}', 
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 20,
@@ -203,6 +179,7 @@ class _DetallePageState extends State<DetallePage> {
   }
 
   Widget _getIngredientes(BuildContext context, Size size) {
+    print(_plato.ingredientes);
     CarritoProvider carritoProvider = Provider.of<CarritoProvider>(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -236,6 +213,7 @@ class _DetallePageState extends State<DetallePage> {
             style: TextStyle(fontSize: 12),
           ),
           Divider(),
+
           Text('Ingredientes', 
             style: TextStyle(
               fontSize: 18,
@@ -247,10 +225,11 @@ class _DetallePageState extends State<DetallePage> {
 
           Container(
             height: 200,
-            child: ListView(
+            child: ListView.builder(
               padding: EdgeInsets.zero,
-              children: <Widget>[
-                Row(
+              itemCount: _plato.ingredientes.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Row(
                   children: <Widget>[
                     SizedBox(
                       width: 25,
@@ -261,24 +240,15 @@ class _DetallePageState extends State<DetallePage> {
                         onChanged: (newValue) {}
                       ),
                     ),
-                    Text('Tomate')
+                    Text(
+                      _plato.ingredientes[index].toString().length > 35 ? 
+                        _plato.ingredientes[index].toString().substring(0, 30) + '...' :
+                        _plato.ingredientes[index].toString(),
+                    )
                   ],
-                ),
-                Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 25,
-                      height: 25,
-                      child: Checkbox(
-                        activeColor: Theme.of(context).primaryColor,
-                        value: true, 
-                        onChanged: (newValue) {}
-                      ),
-                    ),
-                    Text('Lechuga')
-                  ],
-                ),
-              ],
+                );
+              },
+              
             ),
           ),
 
@@ -312,7 +282,11 @@ class _DetallePageState extends State<DetallePage> {
   Widget _getRestaurante(BuildContext context, Size size) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed('restaurante');
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => RestaurantePage(idRestaurante: _plato.idRestaurante)
+          )
+        );
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 40),
@@ -369,7 +343,7 @@ class _DetallePageState extends State<DetallePage> {
       ),
       
       child: FutureBuilder(
-        future: _platoProvider.getPlatosRestaurante(
+        future: _platoProvider.getByRestaurante(
           idRestaurante: _plato.idRestaurante
         ),
         builder: (BuildContext context, AsyncSnapshot<List<Plato>> snapshot) {
