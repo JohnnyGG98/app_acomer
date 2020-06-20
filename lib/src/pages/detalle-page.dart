@@ -101,8 +101,8 @@ class _DetallePageState extends State<DetallePage> {
           Divider(),
 
           RaisedButton(
-            onPressed: ( ) {},
-            child: Text('Ver menu', 
+            onPressed: () { },
+            child: Text('Indicaciones', 
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16
@@ -179,7 +179,6 @@ class _DetallePageState extends State<DetallePage> {
   }
 
   Widget _getIngredientes(BuildContext context, Size size) {
-    print(_plato.ingredientes);
     CarritoProvider carritoProvider = Provider.of<CarritoProvider>(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),

@@ -2,7 +2,8 @@ class Menu {
 
   int id; 
   int idRestaurante; 
-  Map<String, dynamic> menu; 
+  List<dynamic> menu;
+  List<dynamic> fechas;
 
   Menu({
     this.id,
@@ -13,7 +14,7 @@ class Menu {
   Menu.fromJSONMap(Map<String, dynamic> json) {
     id = json['id_menu'];
     idRestaurante = json['id_restaurante'];
-    menu = json['menu'];
+    menu = json['menu_dia'];
   }
 
 }

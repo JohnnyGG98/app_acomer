@@ -1,7 +1,10 @@
 import 'package:app_acomer/src/pages/detalle-page.dart';
+import 'package:app_acomer/src/pages/restaurante/menu-dia-restaurante.dart';
 import 'package:app_acomer/src/pages/restaurante/platos-restaurante.dart';
+import 'package:app_acomer/src/providers/carrito-provider.dart';
 import 'package:app_acomer/src/providers/categoria-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
+import 'package:app_acomer/src/providers/restaurante/menu-dia-provider.dart';
 import 'package:app_acomer/src/providers/restaurantes-provider.dart';
 import 'package:app_acomer/src/widgets/bottom-carrito.dart';
 import 'package:app_acomer/src/widgets/imagen-plato.dart';
@@ -10,6 +13,7 @@ import 'package:provider/provider.dart';
 
 class RestaurantePage extends StatefulWidget {
 
+  final MenuDiaProvider _menuDiaProvider = new MenuDiaProvider();
   final idRestaurante; 
 
   RestaurantePage({@required this.idRestaurante});
@@ -23,12 +27,14 @@ class _RestaurantePageState extends State<RestaurantePage> {
   RestauranteProvider _restauranteProvider;
   PlatoProvider _platoProvider;
   Restaurante _restaurante;
+  CarritoProvider _carritoProvider;
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     _restauranteProvider = Provider.of<RestauranteProvider>(context);
     _platoProvider = Provider.of<PlatoProvider>(context);
+    _carritoProvider = Provider.of<CarritoProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -119,7 +125,7 @@ class _RestaurantePageState extends State<RestaurantePage> {
 
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          child: _getMenuDia(context, size),
+          child: _findFirstMenu(context, size),
         )
 
       ],
@@ -190,7 +196,50 @@ class _RestaurantePageState extends State<RestaurantePage> {
     );
   }
 
-  Widget _getMenuDia(BuildContext context, Size size) {
+  Widget _findFirstMenu(BuildContext context, Size size) {
+    return FutureBuilder(
+      future: widget._menuDiaProvider.getOneByRestaurante(widget.idRestaurante),
+      builder: (BuildContext context, AsyncSnapshot<MenuDia> snapshot) {
+        if (snapshot.hasData) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MenuDiaRestaurantePage(
+                    _restaurante.nombreComercial,
+                    widget._menuDiaProvider,
+                    widget.idRestaurante
+                  )
+                )
+              );
+            },
+            child: _getMenuDia(
+              context, 
+              size,
+              snapshot.data
+            ),
+          );
+        }
+
+        if (snapshot.hasError) {
+          return Center(
+            child: Text('No encontramos nada.'),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+  
+  
+  Widget _getMenuDia(
+    BuildContext context, 
+    Size size,
+    MenuDia menu
+  ) {
     return Container(
       height: size.height * 0.12,
       decoration: BoxDecoration(
@@ -210,14 +259,11 @@ class _RestaurantePageState extends State<RestaurantePage> {
         child: Row(
           children: <Widget>[
             Expanded(
-              child: ListView(
-                children: <Widget>[
-                  Text('HDADWD'),
-                  Text('HDADWD'),
-                  Text('HDADWD'),
-                  Text('HDADWD'),
-                  Text('HDADWD'),
-                ],
+              child: ListView.builder(
+                itemCount: menu.menu.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Text(menu.menu[index]);
+                },
               )
             ),
             Expanded(
@@ -225,7 +271,7 @@ class _RestaurantePageState extends State<RestaurantePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text('\$ 25.0', 
+                  Text('\$ ${menu.precio.toStringAsFixed(2)}', 
                     style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontSize: 24,
@@ -338,6 +384,15 @@ class _RestaurantePageState extends State<RestaurantePage> {
         height: 60,
         width: 60,
         child: ImagenPlato(urlImagen: plato.urlImagen,),
+      ),
+      trailing: IconButton(
+        icon: Icon(
+          Icons.shopping_cart,
+          color: Theme.of(context).primaryColor,
+        ),
+        onPressed: () {
+          _carritoProvider.agregarPlato(plato);
+        },
       ),
       title: Text(plato.nombre),
       subtitle: Text('\$${plato.precio.toStringAsFixed(2)}'),

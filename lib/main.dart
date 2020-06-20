@@ -1,8 +1,6 @@
 
-import 'package:app_acomer/src/pages/detalle-page.dart';
+import 'package:app_acomer/src/pages/carrito/carrito-page.dart';
 import 'package:app_acomer/src/pages/home-page.dart';
-import 'package:app_acomer/src/pages/restaurante-page.dart';
-import 'package:app_acomer/src/pages/restaurante/platos-restaurante.dart';
 import 'package:app_acomer/src/providers/carrito-provider.dart';
 import 'package:app_acomer/src/providers/categoria-provider.dart';
 import 'package:app_acomer/src/providers/clientes-provider.dart';
@@ -65,7 +63,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (BuildContext ct) => HomePage(),
-          'detalle': (BuildContext ct) => DetallePage(idPlato: 1,),
+          'carrito': (BuildContext ct) => CarritoPage(),
         },
       ),
     );

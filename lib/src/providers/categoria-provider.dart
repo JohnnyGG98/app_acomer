@@ -14,7 +14,6 @@ class CategoriaProvider with ChangeNotifier {
   
   Future<List<Categoria>> _mapearCategorias(String url) async {
     final res = await http.get(url, headers: TOKE_HEADER);
-    print(url);
     final data = json.decode(res.body);
     final List<dynamic> list = data['data'];
     
