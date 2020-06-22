@@ -6,7 +6,7 @@ class CarritoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    CarritoProvider carritoProvider = Provider.of<CarritoProvider>(context);;
+    CarritoProvider carritoProvider = Provider.of<CarritoProvider>(context);
 
     return Scaffold(
       appBar: AppBar(

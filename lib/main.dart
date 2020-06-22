@@ -1,6 +1,8 @@
 
 import 'package:app_acomer/src/pages/carrito/carrito-page.dart';
 import 'package:app_acomer/src/pages/home-page.dart';
+import 'package:app_acomer/src/pages/login-page.dart';
+import 'package:app_acomer/src/pages/screen-page.dart';
 import 'package:app_acomer/src/providers/carrito-provider.dart';
 import 'package:app_acomer/src/providers/categoria-provider.dart';
 import 'package:app_acomer/src/providers/clientes-provider.dart';
@@ -60,9 +62,11 @@ class MyApp extends StatelessWidget {
           primaryColorLight: Color.fromRGBO(236, 233, 222, 1),
           primarySwatch: Colors.blue,
         ),
-        initialRoute: '/',
+        initialRoute: 'screen',
         routes: {
           '/': (BuildContext ct) => HomePage(),
+          'screen': (BuildContext ct) => ScreenPage(),
+          'login': (BuildContext context) => LoginPage(),
           'carrito': (BuildContext ct) => CarritoPage(),
         },
       ),
