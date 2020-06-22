@@ -1,4 +1,5 @@
 import 'package:app_acomer/src/models/plato/Plato.dart';
+import 'package:app_acomer/src/pages/producto/ingredientes-page.dart';
 import 'package:app_acomer/src/pages/restaurante-page.dart';
 import 'package:app_acomer/src/providers/carrito-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
@@ -60,7 +61,8 @@ class _DetallePageState extends State<DetallePage> {
                         children: <Widget>[
                           _getRestaurante(context, screenSize),
                           Expanded(
-                            child: _getIngredientes(context, screenSize)
+                            // child: _getIngredientes(context, screenSize)
+                            child: IngredientesPage(_plato)
                           )
                         ],
                       ),
