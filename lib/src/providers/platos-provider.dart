@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:app_acomer/src/models/plato/Plato.dart';
@@ -10,15 +11,27 @@ export 'package:app_acomer/src/models/plato/Plato.dart';
 class PlatoProvider with ChangeNotifier {
   
   String _url = '${BASE_URL}api/v1/plato';
-  List<Plato> _platosHome;
+  List<Plato> _platosHome = new List();
   Plato _plato;
+  int _actPage = 1;
+
+  // Para utilizar un scrool infinito en el home  
+  final _platoStream = StreamController<List<Plato>>.broadcast();
+
+  Function(List<Plato> platos) get platosStreamSink => _platoStream.sink.add;
+
+  Stream<List<Plato>> get allPlatosStream => _platoStream.stream;
+
+  void disposeStreams() {
+    _platoStream?.close();
+  }
 
   set platosHome (List<Plato> platos) {
     _platosHome = platos;
     notifyListeners();
   }
 
-  get platosHome => this._platosHome;
+  List<Plato> get platosHome => this._platosHome;
 
   get plato => this._plato;
 
@@ -55,6 +68,18 @@ class PlatoProvider with ChangeNotifier {
     
     Future<List<Plato>> platos = _mapearPlatos(url);
     platosHome = await platos;
+    return platosHome;
+  }
+
+  Future<List<Plato>> getForInfinityScroll({int page:1}) async {
+    String url = '$_url?page=$_actPage';
+    print(url);
+    Future<List<Plato>> platos = _mapearPlatos(url);
+    List<Plato> allPlatos = await platos;
+    
+    platosHome.addAll(allPlatos);
+    platosStreamSink(platosHome);
+    _actPage++;
     return platosHome;
   }
 

@@ -62,7 +62,8 @@ class MyApp extends StatelessWidget {
           primaryColorLight: Color.fromRGBO(236, 233, 222, 1),
           primarySwatch: Colors.blue,
         ),
-        initialRoute: 'screen',
+        // initialRoute: 'screen',
+        initialRoute: '/',
         routes: {
           '/': (BuildContext ct) => HomePage(),
           'screen': (BuildContext ct) => ScreenPage(),
