@@ -312,27 +312,40 @@ class _RestaurantePageState extends State<RestaurantePage> {
   }
 
   Widget _getMenuTitle(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => PlatosRestaurantePage(
-              _restaurante.nombreComercial,
-              _platoProvider,
-              widget.idRestaurante
-            )
-          )
-        );
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        width: double.infinity,
-        child: Text('Menu', 
-          style: TextStyle(
-            fontSize: 18
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      width: double.infinity,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text('Menu', 
+            style: TextStyle(
+              fontSize: 18,
+            ),
+            textAlign: TextAlign.left,
           ),
-          textAlign: TextAlign.left,
-        ),
+
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => PlatosRestaurantePage(
+                    _restaurante.nombreComercial,
+                    _platoProvider,
+                    widget.idRestaurante
+                  )
+                )
+              );
+            },
+            child: Text('Ver más',
+              style: TextStyle(
+                fontSize: 15,
+                color: Theme.of(context).accentColor
+              ),
+              textAlign: TextAlign.right,
+            ),
+          )
+        ],
       ),
     );
   }

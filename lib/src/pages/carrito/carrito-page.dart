@@ -13,16 +13,30 @@ class CarritoPage extends StatelessWidget {
         title: Text('Carrito'),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-            child: Text(
-              '\$ ${carritoProvider.total.toStringAsFixed(2)}',
-              style: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontSize: 35,
-                fontWeight: FontWeight.w700
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  '\$ ${carritoProvider.total.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 35,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                Text(carritoProvider.numPlatos.toString(),
+                  style: TextStyle(
+                    color: Theme.of(context).accentColor,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w700,
+                  ),
+                )
+              ],
             ),
           ),
           Expanded(
