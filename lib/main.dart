@@ -1,4 +1,3 @@
-
 import 'package:app_acomer/src/pages/carrito/carrito-page.dart';
 import 'package:app_acomer/src/pages/home-page.dart';
 import 'package:app_acomer/src/pages/login-page.dart';
@@ -9,15 +8,17 @@ import 'package:app_acomer/src/providers/clientes-provider.dart';
 import 'package:app_acomer/src/providers/platos-provider.dart';
 import 'package:app_acomer/src/providers/restaurantes-provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  final WidgetsFlutterBinding binding = WidgetsFlutterBinding.ensureInitialized();
+  debugPrint(binding.hasScheduledFrame.toString());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp
   ]).then((_) {
-     runApp(MyApp());
+    runApp(MyApp());
   });
 }
 
